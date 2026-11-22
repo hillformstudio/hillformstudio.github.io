@@ -7,10 +7,60 @@
   <meta name="description" content="Social growth services across 11 platforms and 43 curated options. Clear upfront THB pricing, no sign-up, and zero passwords required." />
   <meta name="theme-color" content="#0D0D0F" />
 
+  <!-- Open Graph & Social Share Cover (Upload og-cover.jpg next to index.html) -->
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hillformstudio.github.io/" />
   <meta property="og:title" content="hillform.studio — Social Growth Across 11 Platforms · Upfront Pricing" />
   <meta property="og:description" content="Pick a service, paste your public link, preview your post, and send your order summary via LINE or Email. Zero passwords ever." />
   <meta property="og:site_name" content="hillform.studio" />
+  <meta property="og:image" content="https://hillformstudio.github.io/og-cover.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="hillform.studio — Social Growth Across 11 Platforms · Upfront Pricing" />
+
+  <!-- Twitter / X Large Preview Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="hillform.studio — Social Growth Across 11 Platforms · Upfront Pricing" />
+  <meta name="twitter:description" content="43 curated social growth services across 11 platforms. Clear upfront THB pricing, PromptPay / Bank Transfer, zero passwords." />
+  <meta name="twitter:image" content="https://hillformstudio.github.io/og-cover.jpg" />
+
+  <!-- =========================================================
+       ANALYTICS & HEATMAP (GA4 + Microsoft Clarity)
+       ใส่รหัสจริงแทน G-XXXXXXXXXX และ CLARITY_PROJECT_ID เพื่อเริ่มเก็บสถิติ
+  ========================================================== -->
+  <script>
+    window.HF_ANALYTICS_CONFIG = {
+      ga4Id: 'G-XXXXXXXXXX',          // เปลี่ยนเป็น Measurement ID จาก Google Analytics 4 เช่น 'G-ABC1234567'
+      clarityId: 'CLARITY_PROJECT_ID' // เปลี่ยนเป็น Project ID จาก Microsoft Clarity เช่น 'o1a2b3c4d5'
+    };
+    (function initHillformAnalytics(cfg) {
+      if (!cfg) return;
+      if (cfg.ga4Id && /^G-[A-Z0-9]+$/i.test(cfg.ga4Id) && cfg.ga4Id !== 'G-XXXXXXXXXX') {
+        var gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(cfg.ga4Id);
+        document.head.appendChild(gaScript);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function() { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', cfg.ga4Id, { send_page_view: true });
+      }
+      if (cfg.clarityId && cfg.clarityId !== 'CLARITY_PROJECT_ID' && /^[a-z0-9]+$/i.test(cfg.clarityId)) {
+        (function(c, l, a, r, i, t, y) {
+          c[a] = c[a] || function() { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', cfg.clarityId);
+      }
+      window.hfTrack = function(eventName, params) {
+        try {
+          if (typeof window.gtag === 'function') window.gtag('event', eventName, params || {});
+          if (typeof window.clarity === 'function') window.clarity('event', eventName);
+        } catch (e) {}
+      };
+    })(window.HF_ANALYTICS_CONFIG);
+  </script>
 
   <!-- Inline Vector Favicon (h.) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%27180%20180%20995%20995%27%3E%3Crect%20x%3D%27180%27%20y%3D%27180%27%20width%3D%27995%27%20height%3D%27995%27%20rx%3D%27220%27%20fill%3D%27%230D0D0F%27%2F%3E%3Cpath%20fill%3D%27%23FFFFFF%27%20d%3D%27M380.39%2C414.73h78.71c17.49%2C139.93%2C69.96%2C227.38%2C139.93%2C227.38%2C30.61%2C0%2C48.1-17.49%2C61.22-56.85%2C8.75-30.61%2C15.3-61.22%2C17.49-91.83%2C2.19%2C30.61%2C8.75%2C61.22%2C17.49%2C91.83%2C13.12%2C39.35%2C30.61%2C56.85%2C61.22%2C56.85%2C69.96%2C0%2C122.44-87.46%2C139.93-227.38h78.71c28.98%2C0%2C52.47%2C23.49%2C52.47%2C52.47v419.78c0%2C28.98-23.49%2C52.47-52.47%2C52.47h-78.71c-17.49-139.93-69.96-227.38-139.93-227.38-30.61%2C0-48.1%2C17.49-61.22%2C56.85-8.75%2C30.61-15.3%2C61.22-17.49%2C91.83-2.19-30.61-8.75-61.22-17.49-91.83-13.12-39.35-30.61-56.85-61.22-56.85-69.96%2C0-122.44%2C87.46-139.93%2C227.38h-78.71c-28.98%2C0-52.47-23.49-52.47-52.47v-419.78c0-28.98%2C23.49-52.47%2C52.47-52.47Z%27%2F%3E%3C%2Fsvg%3E" />
@@ -902,6 +952,24 @@
                     <span data-i18n="btn_submit_order">Create Order Summary (LINE / Email)</span>
                   </button>
                   <p data-i18n="reassurance_note" class="text-center text-xs text-[#71717A]">Free summary. You only pay after confirming via LINE or Email.</p>
+
+                  <!-- Payment & Admin Hours Trust Strip -->
+                  <div class="pt-3 mt-1 border-t border-[#E4E4E7] space-y-1.5 text-[11px] text-[#52525B]">
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="inline-flex items-center gap-1.5 font-medium text-[#0D0D0F]">
+                        <svg class="w-3.5 h-3.5 text-[#0D0D0F] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                        <span data-i18n="pay_strip_label">Payment</span>
+                      </span>
+                      <span class="text-right" data-i18n="pay_strip_val">PromptPay QR · Thai Bank Transfer</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="inline-flex items-center gap-1.5 font-medium text-[#0D0D0F]">
+                        <svg class="w-3.5 h-3.5 text-[#0D0D0F] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 2"/></svg>
+                        <span data-i18n="hours_strip_label">Admin hours</span>
+                      </span>
+                      <span class="text-right" data-i18n="hours_strip_val">Daily 09:00–23:00 (5–15 min reply)</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1014,6 +1082,39 @@
             <div class="w-7 h-7 rounded-full bg-[#0D0D0F] text-white text-xs font-semibold flex items-center justify-center mb-4">3</div>
             <h3 class="text-base font-semibold text-[#0D0D0F]" data-i18n="step3_title">Send via LINE or Email</h3>
             <p class="mt-2 text-xs sm:text-sm text-[#52525B] leading-relaxed" data-i18n="step3_desc">Send your order code to LINE · hillform.studio or Email to confirm payment and start.</p>
+          </div>
+        </div>
+
+        <!-- Payment, Admin Hours & Refill Policy Strip -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="rounded-2xl bg-white border border-[#E4E4E7] p-5 space-y-2">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-[#F9F9F8] border border-[#E4E4E7] text-[#0D0D0F] flex items-center justify-center shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+              </span>
+              <h3 class="text-sm font-semibold text-[#0D0D0F]" data-i18n="info_pay_title">Payment Methods</h3>
+            </div>
+            <p class="text-xs text-[#52525B] leading-relaxed" data-i18n="info_pay_desc">Accepts PromptPay QR and Thai Bank Transfer. No credit card or sign-up required — transfer only after confirming your order on LINE or Email.</p>
+          </div>
+
+          <div class="rounded-2xl bg-white border border-[#E4E4E7] p-5 space-y-2">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-[#F9F9F8] border border-[#E4E4E7] text-[#0D0D0F] flex items-center justify-center shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 2"/></svg>
+              </span>
+              <h3 class="text-sm font-semibold text-[#0D0D0F]" data-i18n="info_hours_title">Admin Hours & Response</h3>
+            </div>
+            <p class="text-xs text-[#52525B] leading-relaxed" data-i18n="info_hours_desc">Open daily 09:00–23:00 (GMT+7) with 5–15 min average reply. Orders submitted after hours are prioritized first thing at 09:00.</p>
+          </div>
+
+          <div class="rounded-2xl bg-white border border-[#E4E4E7] p-5 space-y-2">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-[#F9F9F8] border border-[#E4E4E7] text-[#0D0D0F] flex items-center justify-center shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V7l7-4z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/></svg>
+              </span>
+              <h3 class="text-sm font-semibold text-[#0D0D0F]" data-i18n="info_refill_title">Refill & Drop Support</h3>
+            </div>
+            <p class="text-xs text-[#52525B] leading-relaxed" data-i18n="info_refill_desc">Services labeled with Refill include free refill support per service terms. Simply message LINE with your Order ID if a drop occurs.</p>
           </div>
         </div>
 
@@ -1160,6 +1261,7 @@
             <svg class="h-[14px] w-[107px] shrink-0 text-[#0D0D0F]" role="img" aria-label="hillform.studio"><use href="#logo-wordmark"/></svg>
           </div>
           <p class="mt-1 text-xs text-[#71717A] leading-snug" data-i18n="modal_qr_hint">Scan the QR to open LINE or tap the button below to send your order summary.</p>
+          <p class="mt-1.5 text-[11px] font-medium text-[#0D0D0F]" data-i18n="modal_pay_hours">PromptPay / Bank Transfer · Daily 09:00–23:00 (5–15 min reply)</p>
         </div>
       </div>
 
@@ -1614,7 +1716,18 @@
         prev_open_link: 'เปิดดูลิงก์ ↗',
         prev_show_embed: 'ดูตัวอย่างโพสต์',
         prev_hide_embed: 'ซ่อนตัวอย่าง',
-        prev_refresh: 'ลองดึงใหม่'
+        prev_refresh: 'ลองดึงใหม่',
+        pay_strip_label: 'การชำระเงิน',
+        pay_strip_val: 'PromptPay QR · โอนธนาคารไทย',
+        hours_strip_label: 'เวลาทำการแอดมิน',
+        hours_strip_val: 'ทุกวัน 09:00–23:00 น. (ตอบใน 5–15 นาที)',
+        info_pay_title: 'ช่องทางชำระเงิน',
+        info_pay_desc: 'รับชำระผ่าน PromptPay QR และโอนบัญชีธนาคารไทย ไม่ต้องผูกบัตรเครดิตหรือสมัครสมาชิก โอนเฉพาะหลังยืนยันออเดอร์ทาง LINE หรือ Email',
+        info_hours_title: 'เวลาทำการและการตอบกลับ',
+        info_hours_desc: 'แอดมินดูแลทุกวัน 09:00–23:00 น. ตอบกลับเฉลี่ยใน 5–15 นาที หากส่งออเดอร์นอกเวลา ระบบจัดคิวเริ่มดำเนินการให้ทันทีเวลา 09:00 น.',
+        info_refill_title: 'การรับประกันและเคลมยอดลด',
+        info_refill_desc: 'บริการที่ระบุเงื่อนไข Refill มีบริการเติมยอดฟรีตามระยะเวลารับประกันของบริการนั้นๆ เพียงแจ้งรหัสออเดอร์ทาง LINE เพื่อตรวจสอบ',
+        modal_pay_hours: 'รับ PromptPay / โอนธนาคาร · แอดมินดูแลทุกวัน 09:00–23:00 น. (ตอบใน 5–15 นาที)'
       },
       en: {
         top_bar_cta: 'Check Price →',
@@ -1731,7 +1844,18 @@
         prev_open_link: 'Open link ↗',
         prev_show_embed: 'Show embed',
         prev_hide_embed: 'Hide embed',
-        prev_refresh: 'Retry'
+        prev_refresh: 'Retry',
+        pay_strip_label: 'Payment',
+        pay_strip_val: 'PromptPay QR · Thai Bank Transfer',
+        hours_strip_label: 'Admin hours',
+        hours_strip_val: 'Daily 09:00–23:00 (5–15 min reply)',
+        info_pay_title: 'Payment Methods',
+        info_pay_desc: 'Accepts PromptPay QR and Thai Bank Transfer. No credit card or sign-up required — transfer only after confirming your order on LINE or Email.',
+        info_hours_title: 'Admin Hours & Response',
+        info_hours_desc: 'Open daily 09:00–23:00 (GMT+7) with 5–15 min average reply. Orders submitted after hours are prioritized first thing at 09:00.',
+        info_refill_title: 'Refill & Drop Support',
+        info_refill_desc: 'Services labeled with Refill include free refill support per service terms. Simply message LINE with your Order ID if a drop occurs.',
+        modal_pay_hours: 'PromptPay / Bank Transfer · Daily 09:00–23:00 (5–15 min reply)'
       }
     };
 
@@ -2298,6 +2422,7 @@
         spec: getComposedSpecText(),
         subtotal: computeTotalCharge(srv, state.quantity)
       });
+      if (window.hfTrack) window.hfTrack('add_to_bill', { service_id: srv.id, platform: srv.platform, value: computeTotalCharge(srv, state.quantity), currency: 'THB' });
       showToast(t('toast_added_cart'));
       renderServiceDetailsAndCalc();
     }
@@ -2441,6 +2566,7 @@
     }
 
     function selectPlatformFilter(filterId) {
+      if (window.hfTrack) window.hfTrack('select_platform', { platform: filterId });
       closeAllCustomDropdowns();
       state.platformFilter = filterId;
       clearStudioSearch();
@@ -2484,6 +2610,7 @@
     function selectService(serviceId) {
       const srv = SERVICES.find((s) => s.id === serviceId);
       if (!srv) return;
+      if (window.hfTrack) window.hfTrack('select_service', { service_id: srv.id, platform: srv.platform });
       const specChanged = getActiveService().specType !== srv.specType;
       state.platform = srv.platform;
       if (state.platformFilter !== 'all') state.platformFilter = getFilterTabForPlatform(srv.platform);
@@ -3250,6 +3377,7 @@
       };
       state.currentTicket = ticket;
       saveTicketToVault(ticket);
+      if (window.hfTrack) window.hfTrack('begin_checkout', { transaction_id: ticket.id, items_count: orderItems.length, value: ticket.total, currency: 'THB' });
 
       document.getElementById('modal-ticket-id').textContent = ticket.id;
       document.getElementById('modal-ticket-total').textContent = formatTHB(ticket.total);
@@ -3294,6 +3422,7 @@
     }
     function dispatchViaLine() {
       if (!state.currentTicket) return;
+      if (window.hfTrack) window.hfTrack('checkout_line', { transaction_id: state.currentTicket.id, value: state.currentTicket.total, currency: 'THB' });
       const summary = buildTicketPlainText(state.currentTicket);
       copyTextSafe(summary, t('toast_copied'));
       const oaUrl = `https://line.me/R/oaMessage/${encodeURIComponent(LINE_OA_ID)}/?${encodeURIComponent(summary)}`;
@@ -3301,6 +3430,7 @@
     }
     function dispatchViaEmail() {
       if (!state.currentTicket) return;
+      if (window.hfTrack) window.hfTrack('checkout_email', { transaction_id: state.currentTicket.id, value: state.currentTicket.total, currency: 'THB' });
       const summary = buildTicketPlainText(state.currentTicket);
       copyTextSafe(summary, t('toast_copied'));
       const subject = `[hillform.studio] Order ${state.currentTicket.id}`;
