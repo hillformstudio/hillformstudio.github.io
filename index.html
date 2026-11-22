@@ -1112,7 +1112,7 @@
        ORDER SUMMARY MODAL (LINE & Email)
   ========================================================== -->
   <div id="order-ticket-modal" role="dialog" aria-modal="true" onclick="if(event.target===this)closeOrderTicketModal()" class="hf-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0D0D0F]/60 backdrop-blur-[6px]">
-    <div class="hf-modal-panel relative w-full max-w-lg max-h-[92vh] overflow-y-auto subtle-scroll rounded-[26px] bg-white border border-[#E4E4E7] shadow-floating p-5 sm:p-6">
+    <div style="max-height:calc(100vh - 2rem);max-height:calc(100dvh - 2rem);-webkit-overflow-scrolling:touch" class="hf-modal-panel relative w-full max-w-lg overflow-y-auto subtle-scroll rounded-[26px] bg-white border border-[#E4E4E7] shadow-floating p-5 sm:p-6">
 
       <div class="flex items-start justify-between gap-3 pb-4 border-b border-[#E4E4E7]">
         <div>
@@ -1202,7 +1202,7 @@
   <!-- =========================================================
        FLOATING QUICK HELP WIDGET (เข้าใจง่าย ไม่ซับซ้อน)
   ========================================================== -->
-  <div class="fixed bottom-20 lg:bottom-6 right-4 lg:right-6 z-40">
+  <div class="pointer-events-none fixed bottom-20 lg:bottom-6 right-4 lg:right-6 z-40">
     <div id="concierge-drawer" class="hf-drawer mb-3 w-[320px] sm:w-[340px] rounded-[24px] bg-white border border-[#E4E4E7] shadow-floating overflow-hidden">
       <div class="bg-[#0D0D0F] text-white px-4 py-3.5 flex items-center justify-between">
         <div class="flex items-center gap-2.5">
@@ -1238,7 +1238,7 @@
       type="button"
       onclick="toggleConcierge()"
       aria-label="เปิดถาม-ตอบด่วน"
-      class="hf-btn-dark ml-auto flex items-center gap-2 p-3 lg:px-4 lg:py-2.5 rounded-full bg-[#0D0D0F] hover:bg-[#1C1C1F] text-white shadow-floating border border-white/10"
+      class="hf-btn-dark pointer-events-auto ml-auto flex items-center gap-2 p-3 lg:px-4 lg:py-2.5 rounded-full bg-[#0D0D0F] hover:bg-[#1C1C1F] text-white shadow-floating border border-white/10"
     >
       <svg class="w-5 h-5 text-white shrink-0" aria-hidden="true"><use href="#logo-hillform"/></svg>
       <span class="hidden lg:inline text-xs font-medium" data-i18n="help_fab">Quick Help</span>
@@ -3406,7 +3406,7 @@
       const linkInp = document.getElementById('target-link-input');
       if (linkInp) linkInp.placeholder = getPlatformObj(state.platform).sample;
 
-      document.addEventListener('click', (e) => {
+      document.addEventListener('pointerdown', (e) => {
         if (!e.target.closest('#category-dropdown-wrap') && !e.target.closest('#service-dropdown-wrap')) closeAllCustomDropdowns();
         if (!e.target.closest('#studio-search-input') && !e.target.closest('#studio-search-results')) {
           document.getElementById('studio-search-results')?.classList.remove('is-open');
