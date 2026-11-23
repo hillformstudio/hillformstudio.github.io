@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
+  <!-- Google Tag Manager · Hillform Studio (GTM-5LRZSLXJ) -->
+  <script>
+    window.HF_GTM_CONTAINER_ID = 'GTM-5LRZSLXJ';
+    window.dataLayer = window.dataLayer || [];
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[];
+      w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;
+      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer',window.HF_GTM_CONTAINER_ID);
+  </script>
+  <!-- End Google Tag Manager -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>hillform.studio — Social Growth Across 11 Platforms · Upfront Pricing</title>
@@ -26,17 +40,22 @@
   <meta name="twitter:image" content="https://hillformstudio.github.io/og-cover.jpg" />
 
   <!-- =========================================================
-       ANALYTICS & HEATMAP (GA4 + Microsoft Clarity)
-       ใส่รหัสจริงแทน G-XXXXXXXXXX และ CLARITY_PROJECT_ID เพื่อเริ่มเก็บสถิติ
+       ANALYTICS / HEATMAP
+       Google Tag Manager above manages GA4 and other tags centrally.
+       Configure GA4 measurement ID as a Google tag inside GTM, NOT by
+       adding another on-page gtag.js snippet, to prevent duplicate events.
+       Microsoft Clarity remains optional; paste its project ID below.
+       Hillform's hfTrack() pushes events into dataLayer for GTM triggers.
   ========================================================== -->
   <script>
     window.HF_ANALYTICS_CONFIG = {
-      ga4Id: 'G-XXXXXXXXXX',          // เปลี่ยนเป็น Measurement ID จาก Google Analytics 4 เช่น 'G-ABC1234567'
-      clarityId: 'CLARITY_PROJECT_ID' // เปลี่ยนเป็น Project ID จาก Microsoft Clarity เช่น 'o1a2b3c4d5'
+      ga4Id: 'G-XXXXXXXXXX',          // legacy placeholder; configure actual GA4 ID inside GTM
+      clarityId: 'CLARITY_PROJECT_ID' // optional Microsoft Clarity Project ID
     };
     (function initHillformAnalytics(cfg) {
       if (!cfg) return;
-      if (cfg.ga4Id && /^G-[A-Z0-9]+$/i.test(cfg.ga4Id) && cfg.ga4Id !== 'G-XXXXXXXXXX') {
+      // Legacy fallback only if GTM is deliberately removed from this site.
+      if (!window.HF_GTM_CONTAINER_ID && cfg.ga4Id && /^G-[A-Z0-9]+$/i.test(cfg.ga4Id) && cfg.ga4Id !== 'G-XXXXXXXXXX') {
         var gaScript = document.createElement('script');
         gaScript.async = true;
         gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(cfg.ga4Id);
@@ -55,11 +74,32 @@
       }
       window.hfTrack = function(eventName, params) {
         try {
-          if (typeof window.gtag === 'function') window.gtag('event', eventName, params || {});
+          if (window.HF_GTM_CONTAINER_ID) {
+            window.dataLayer = window.dataLayer || [];
+            // Only flat, non-sensitive event metadata; never send passwords, names, or links.
+            window.dataLayer.push(Object.assign({ event: eventName }, params || {}));
+          } else if (typeof window.gtag === 'function') {
+            window.gtag('event', eventName, params || {});
+          }
           if (typeof window.clarity === 'function') window.clarity('event', eventName);
         } catch (e) {}
       };
     })(window.HF_ANALYTICS_CONFIG);
+  </script>
+
+
+  <!-- =========================================================
+       V33 INSTAGRAM LIVE FEED SETUP
+       1) Connect @hillform.studio at https://behold.so/
+       2) Create a JSON feed (not a Widget feed)
+       3) Paste your own https://feeds.behold.so/YOUR_FEED_ID URL below.
+       Until connected, the studio preview is displayed — NOT a live Instagram feed.
+       Do not paste access tokens or private API keys here.
+  ========================================================== -->
+  <script>
+    window.HF_INSTAGRAM = {
+      jsonFeedUrl: '' // example format: https://feeds.behold.so/YOUR_FEED_ID
+    };
   </script>
 
   <!-- Inline Vector Favicon (h.) -->
@@ -514,6 +554,24 @@
       );
     }
 
+
+    /* V33 · From our studio: restrained grid, no third-party widget chrome */
+    .hf-ig-tile {
+      transition: transform 220ms var(--ease-out-expo), box-shadow 220ms var(--ease-out-expo);
+      contain: layout paint;
+    }
+    .hf-ig-tile:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px -14px rgba(13, 13, 15, .18);
+    }
+    .hf-ig-tile:focus-visible { outline: 2px solid #0D0D0F; outline-offset: 4px; }
+    .hf-ig-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .hf-ig-tile .hf-ig-media-tag {
+      position: absolute; top: 12px; right: 12px; z-index: 2;
+      background: rgba(13,13,15,.84); color: #fff; padding: 5px 9px;
+      font-size: 10px; line-height: 1; border-radius: 999px;
+    }
+
     /* Respect Reduced Motion (Vercel Web Design Guidelines) */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -532,6 +590,9 @@
   </style>
 </head>
 <body class="bg-[#F9F9F8] text-[#0D0D0F] selection:bg-[#0D0D0F] selection:text-white pb-20 lg:pb-0">
+  <!-- Google Tag Manager (noscript fallback) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LRZSLXJ" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <!-- =========================================================
        INLINE SVG SYMBOL SPRITE (h. Logo + 11 Platforms + Channels)
@@ -773,7 +834,7 @@
         </div>
 
         <!-- 4-Column Quick Facts Strip -->
-        <div class="hf-enter hf-enter-d1 grid grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
+        <div class="hf-enter hf-enter-d1 grid grid-cols-2 lg:grid-cols-4 gap-3 mb-0">
           <div class="hf-stat-card rounded-2xl bg-white border border-[#E4E4E7] px-4 py-3.5">
             <div class="text-base sm:text-lg font-semibold text-[#0D0D0F]" data-i18n="proof1_val">No Password</div>
             <div class="text-xs text-[#71717A] mt-0.5" data-i18n="proof1_sub">Public post or profile link only</div>
@@ -791,6 +852,62 @@
             <div class="text-xs text-[#71717A] mt-0.5" data-i18n="proof4_sub">Order directly via LINE or Email</div>
           </div>
         </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         V33. FROM OUR STUDIO · INSTAGRAM (3 LATEST POSTS)
+         Static editorial preview until a Behold JSON feed URL is connected.
+         Live cards link to each real Instagram post and refresh with the feed.
+    ========================================================== -->
+    <section id="from-our-studio" class="scroll-mt-20 py-12 sm:py-16 border-t border-[#E4E4E7] bg-white reveal">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6 sm:mb-8">
+          <div class="max-w-xl">
+            <div class="flex items-center gap-2 mb-2">
+              <svg class="w-4 h-4 text-[#0D0D0F]" aria-hidden="true"><use href="#logo-instagram"/></svg>
+              <span class="text-[11px] font-medium tracking-[0.13em] uppercase text-[#71717A]">@hillform.studio</span>
+              <span class="h-1 w-1 rounded-full bg-[#D4D4D8]" aria-hidden="true"></span>
+              <span id="hf-ig-status" class="text-[11px] text-[#71717A]" data-i18n="ig_preview">Studio preview</span>
+            </div>
+            <h2 class="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-[#0D0D0F]" data-i18n="ig_heading">From our studio.</h2>
+            <p id="hf-ig-subline" class="mt-2 text-sm text-[#71717A] leading-relaxed" data-i18n="ig_preview_sub">Brand identity, graphic design and digital presence — a preview of our studio work.</p>
+          </div>
+          <a href="https://www.instagram.com/hillform.studio/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 self-start sm:self-auto px-5 py-2.5 rounded-full border border-[#D4D4D8] text-xs sm:text-[13px] font-medium text-[#0D0D0F] bg-white hover:bg-[#F4F4F5]" aria-label="Visit @hillform.studio on Instagram">
+            <span data-i18n="ig_follow">View Instagram</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>
+          </a>
+        </div>
+
+        <!-- These are editorial PREVIEWS based on the launch artwork — never described as published posts. -->
+        <div id="hf-ig-grid" class="grid grid-cols-3 gap-2 sm:gap-4" aria-live="polite" aria-busy="false">
+          <a class="hf-ig-tile group block relative aspect-square bg-[#0D0D0F] overflow-hidden rounded-lg sm:rounded-2xl" href="https://www.instagram.com/hillform.studio/" target="_blank" rel="noopener noreferrer" aria-label="Explore our digital presence on Instagram">
+            <div class="h-full p-3 sm:p-6 flex flex-col justify-between">
+              <p class="font-display text-white text-[10px] sm:text-lg lg:text-[27px] leading-[1.15] font-medium tracking-tight">Beyond design.<br>Into digital.</p>
+              <p class="text-white/70 text-[8px] sm:text-xs leading-[1.35]">Digital Presence.<br>Social Media Services.</p>
+            </div>
+          </a>
+          <a class="hf-ig-tile group block relative aspect-square bg-[#FAFAFA] border border-[#E4E4E7] overflow-hidden rounded-lg sm:rounded-2xl" href="https://www.instagram.com/hillform.studio/" target="_blank" rel="noopener noreferrer" aria-label="Explore our creative services on Instagram">
+            <div class="h-full p-3 sm:p-6 flex flex-col justify-between">
+              <p class="font-display text-[#0D0D0F] text-[10px] sm:text-lg lg:text-[27px] leading-[1.15] font-medium tracking-tight">Design shapes<br>perception.</p>
+              <p class="text-[#71717A] text-[8px] sm:text-xs leading-[1.35]">Brand Identity.<br>Graphic Design.</p>
+            </div>
+          </a>
+          <a class="hf-ig-tile group block relative aspect-square bg-[#0D0D0F] overflow-hidden rounded-lg sm:rounded-2xl" href="https://www.instagram.com/hillform.studio/" target="_blank" rel="noopener noreferrer" aria-label="Explore hillform.studio on Instagram">
+            <div class="h-full flex flex-col items-center justify-center gap-2 sm:gap-4 p-3 sm:p-6">
+              <svg class="w-12 h-12 sm:w-20 sm:h-20 text-white" aria-hidden="true"><use href="#logo-hillform"/></svg>
+              <span class="text-white text-[9px] sm:text-base font-semibold tracking-tight">hillform.studio</span>
+            </div>
+          </a>
+        </div>
+        <p id="hf-ig-preview-note" class="mt-3 text-[11px] text-[#A1A1AA]" data-i18n="ig_preview_note">Selected launch artwork · Visit Instagram for published posts.</p>
+      </div>
+    </section>
+
+    <!-- 2. FEATURE BANNER + ORDER STUDIO (same layout as V34) -->
+    <section id="feature-services" class="pt-5 sm:pt-7 pb-8 sm:pb-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- HORIZONTAL FEATURE BANNER: Editorial Lifestyle Showcase (Before Order Studio) -->
         <article class="hf-enter hf-enter-d2 hf-banner2-card group relative rounded-[28px] bg-white border border-[#E4E4E7] overflow-hidden grid grid-cols-1 lg:grid-cols-12 items-stretch mb-8">
@@ -1423,6 +1540,7 @@
       </div>
     </section>
 
+
     <!-- =========================================================
          6. FAQ ACCORDION (ตอบตรงไปตรงมา)
     ========================================================== -->
@@ -1902,6 +2020,13 @@
         nav_how: 'วิธีสั่งซื้อ',
         nav_reviews: 'รีวิวลูกค้า',
         nav_faq: 'คำถามที่พบบ่อย',
+        ig_preview: 'ตัวอย่างงานจากสตูดิโอ',
+        ig_live: 'โพสต์ล่าสุด',
+        ig_heading: 'From our studio.',
+        ig_preview_sub: 'Brand Identity, Graphic Design และ Digital Presence — ตัวอย่างผลงานและแนวคิดของสตูดิโอ',
+        ig_live_sub: 'โพสต์ล่าสุดจาก Instagram ของเรา — งานออกแบบ ความคิดสร้างสรรค์ และการสื่อสารดิจิทัล',
+        ig_follow: 'ดู Instagram',
+        ig_preview_note: 'ตัวอย่าง Artwork เปิดตัวแบรนด์ · ดูโพสต์ที่เผยแพร่จริงได้บน Instagram',
         hero_eyebrow: 'ไม่ต้องสมัครสมาชิก · ไม่ต้องใช้รหัสผ่าน',
         hero_title: 'เพิ่มยอดโซเชียลครบทุกแพลตฟอร์ม เห็นราคาก่อนสั่ง ไม่ต้องให้รหัสผ่าน',
         hero_subtitle: 'เลือกบริการ วางลิงก์ เช็กราคาหน้าเว็บ แล้วกดส่งสรุปออเดอร์ทาง LINE หรือ Email ได้เลย เก็บข้อมูลเป็นความลับทุกออเดอร์',
@@ -2052,6 +2177,13 @@
         nav_how: 'How to Order',
         nav_reviews: 'Reviews',
         nav_faq: 'FAQ',
+        ig_preview: 'Studio preview',
+        ig_live: 'Latest posts',
+        ig_heading: 'From our studio.',
+        ig_preview_sub: 'Brand identity, graphic design and digital presence — a preview of our studio work.',
+        ig_live_sub: 'Latest from our Instagram — design, ideas and digital presence.',
+        ig_follow: 'View Instagram',
+        ig_preview_note: 'Selected launch artwork · Visit Instagram for published posts.',
         hero_eyebrow: 'No Sign-Up · No Password Needed',
         hero_title: 'Social growth across 11 platforms. Clear upfront pricing, zero passwords.',
         hero_subtitle: 'Pick a service, paste your public link, check the exact price, and send your order summary via LINE or Email. Private and simple.',
@@ -4248,5 +4380,87 @@
       initScrollReveal();
     });
   </script>
+
+  <!-- V33 · Native three-card live Instagram grid, powered by a public Behold JSON feed. -->
+  <script>
+    (function initHillformInstagram() {
+      'use strict';
+      const section = document.getElementById('from-our-studio');
+      if (!section) return;
+      const grid = document.getElementById('hf-ig-grid');
+      const status = document.getElementById('hf-ig-status');
+      const subtitle = document.getElementById('hf-ig-subline');
+      const previewNote = document.getElementById('hf-ig-preview-note');
+      const raw = String(window.HF_INSTAGRAM?.jsonFeedUrl || '').trim();
+      // Only public Behold JSON feed URLs; no private access tokens in website code.
+      if (!/^https:\/\/feeds\.behold\.so\/[A-Za-z0-9_-]+\/?$/.test(raw)) return;
+      let requested = false;
+      function validMediaUrl(url) {
+        try { return new URL(url).protocol === 'https:'; } catch (_) { return false; }
+      }
+      function validPostUrl(url) {
+        try {
+          const u = new URL(url);
+          return u.protocol === 'https:' && (u.hostname === 'instagram.com' || u.hostname === 'www.instagram.com') &&
+            /^\/(p|reel|tv)\/[A-Za-z0-9_-]+\/?/.test(u.pathname);
+        } catch (_) { return false; }
+      }
+      function makeTile(post, idx) {
+        const href = post.permalink;
+        const src = post.sizes?.medium?.mediaUrl || post.sizes?.large?.mediaUrl || post.thumbnailUrl || post.mediaUrl;
+        if (!validPostUrl(href) || !validMediaUrl(src)) return null;
+        const link = document.createElement('a');
+        link.className = 'hf-ig-tile group relative block aspect-square overflow-hidden rounded-lg sm:rounded-2xl bg-[#F4F4F5]';
+        link.href = href; link.target = '_blank'; link.rel = 'noopener noreferrer';
+        link.setAttribute('aria-label', 'View Instagram post ' + (idx + 1));
+        const img = document.createElement('img');
+        img.src = src; img.loading = 'lazy'; img.decoding = 'async';
+        img.alt = String(post.altText || post.prunedCaption || post.caption || 'hillform.studio Instagram post').slice(0, 140);
+        link.appendChild(img);
+        if (post.mediaType === 'VIDEO' || post.isReel || post.mediaType === 'CAROUSEL_ALBUM') {
+          const tag = document.createElement('span');
+          tag.className = 'hf-ig-media-tag';
+          tag.textContent = (post.mediaType === 'CAROUSEL_ALBUM') ? 'Gallery' : 'Reel / Video';
+          link.appendChild(tag);
+        }
+        return link;
+      }
+      async function loadInstagram() {
+        if (requested) return;
+        requested = true;
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
+        try {
+          // Public JSON feed: https://behold.so/docs/json-feeds/
+          const res = await fetch(raw, { signal: controller.signal });
+          if (!res.ok) throw new Error('Instagram feed unavailable');
+          const data = await res.json();
+          const posts = Array.isArray(data.posts) ? data.posts : [];
+          const tiles = posts.slice().sort((a,b) => Date.parse(b.timestamp || 0) - Date.parse(a.timestamp || 0))
+            .map(makeTile).filter(Boolean).slice(0, 3);
+          if (!tiles.length) return; // preserve the editorial fallback if the feed is empty
+          grid.replaceChildren(...tiles);
+          if (status) { status.setAttribute('data-i18n','ig_live'); }
+          if (subtitle) { subtitle.setAttribute('data-i18n','ig_live_sub'); }
+          if (previewNote) previewNote.hidden = true;
+          // Reuse existing EN/TH translation logic if available.
+          const lang = document.documentElement.lang === 'th' ? 'th' : 'en';
+          if (status) status.textContent = lang === 'th' ? 'โพสต์ล่าสุด' : 'Latest posts';
+          if (subtitle) subtitle.textContent = lang === 'th'
+            ? 'โพสต์ล่าสุดจาก Instagram ของเรา — งานออกแบบ ความคิดสร้างสรรค์ และการสื่อสารดิจิทัล'
+            : 'Latest from our Instagram — design, ideas and digital presence.';
+        } catch (_) {
+          // Network, auth, or access issue: the branded static preview stays visible.
+        } finally { clearTimeout(timeout); }
+      }
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          if (entries.some(e => e.isIntersecting)) { observer.disconnect(); loadInstagram(); }
+        }, { rootMargin: '450px 0px' });
+        observer.observe(section);
+      } else { loadInstagram(); }
+    })();
+  </script>
+
 </body>
 </html>
