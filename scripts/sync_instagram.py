@@ -1,51 +1,83 @@
 #!/usr/bin/env python3
-"""Create a public, token-free snapshot of a connected Instagram Business account."""
+"""Sync posts for hillform.studio using Meta's Instagram Unified Login.
+
+Runs only on GitHub Actions. Access token stays in the secret environment.
+"""
 import json
 import os
-import pathlib
+from pathlib import Path
 import sys
-import urllib.error
-import urllib.parse
-import urllib.request
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 
-TOKEN = os.environ.get('INSTAGRAM_ACCESS_TOKEN', '').strip()
+IG_ACCOUNT_ID = "17841479898864679"
+TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN", "").strip()
 if not TOKEN:
-    sys.exit('Missing INSTAGRAM_ACCESS_TOKEN secret')
+    sys.exit("Missing INSTAGRAM_ACCESS_TOKEN GitHub Actions secret")
 
-fields = 'id,media_type,media_url,thumbnail_url,permalink,caption,timestamp'
-params = urllib.parse.urlencode({'fields': fields, 'limit': 12, 'access_token': TOKEN})
-url = f'https://graph.instagram.com/v25.0/me/media?{params}'
-req = urllib.request.Request(url, headers={'Accept': 'application/json', 'User-Agent': 'hillform-feed/1.0'})
+# Unified Login / Facebook Graph uses graph.facebook.com and a business IG user ID.
+BASE = f"https://graph.facebook.com/v26.0/{IG_ACCOUNT_ID}/media"
+query = urlencode({
+    "fields": "id,media_type,media_url,thumbnail_url,permalink,caption,timestamp",
+    "limit": 12,
+})
+request = Request(
+    BASE + "?" + query,
+    headers={
+        "Authorization": "Bearer " + TOKEN,
+        "Accept": "application/json",
+        "User-Agent": "hillform-studio-instagram-sync/1.1",
+    },
+)
 try:
-    with urllib.request.urlopen(req, timeout=30) as response:
-        result = json.load(response)
-except urllib.error.HTTPError as exc:
-    sys.exit(f'Instagram API HTTP {exc.code}; confirm token is current and has media-read permission')
-except Exception as exc:
-    sys.exit(f'Instagram API unavailable: {type(exc).__name__}')
+    with urlopen(request, timeout=30) as response:
+        payload = json.load(response)
+except HTTPError as exc:
+    # Never print API error response bodies or secrets into public build logs.
+    sys.exit(
+        f"Instagram Unified Login API returned HTTP {exc.code}. "
+        "Verify Meta token, Instagram account ID, permissions, and app access."
+    )
+except (URLError, TimeoutError) as exc:
+    sys.exit(f"Instagram API connection failed: {type(exc).__name__}")
 
-if not isinstance(result, dict) or not isinstance(result.get('data'), list):
-    sys.exit('Instagram response lacked media data')
+if not isinstance(payload, dict) or not isinstance(payload.get("data"), list):
+    sys.exit("Instagram media response missing expected data list")
 
 posts = []
-for item in result['data']:
+for item in payload["data"]:
     if not isinstance(item, dict):
         continue
-    permalink = str(item.get('permalink') or '')
-    if not permalink.startswith(('https://www.instagram.com/p/', 'https://www.instagram.com/reel/', 'https://www.instagram.com/tv/', 'https://instagram.com/p/', 'https://instagram.com/reel/')):
+    link = str(item.get("permalink") or "")
+    if not link.startswith((
+        "https://www.instagram.com/p/", "https://www.instagram.com/reel/",
+        "https://www.instagram.com/tv/", "https://instagram.com/p/",
+        "https://instagram.com/reel/", "https://instagram.com/tv/",
+    )):
         continue
-    kind = str(item.get('media_type') or '')
-    image = str((item.get('thumbnail_url') if kind == 'VIDEO' else item.get('media_url')) or item.get('media_url') or '')
-    if not image.startswith('https://'):
+    media_type = str(item.get("media_type") or "")
+    # Videos display their thumbnail; other posts use the cover image.
+    url = str(
+        (item.get("thumbnail_url") if media_type == "VIDEO" else item.get("media_url"))
+        or item.get("media_url") or ""
+    )
+    if not url.startswith("https://"):
         continue
-    posts.append({'id': str(item.get('id') or ''), 'mediaType': kind, 'mediaUrl': image,
-                  'thumbnailUrl': str(item.get('thumbnail_url') or ''), 'permalink': permalink,
-                  'caption': str(item.get('caption') or '')[:240], 'timestamp': str(item.get('timestamp') or '')})
+    posts.append({
+        "id": str(item.get("id") or ""),
+        "mediaType": media_type,
+        "mediaUrl": url,
+        "thumbnailUrl": str(item.get("thumbnail_url") or ""),
+        "permalink": link,
+        "caption": str(item.get("caption") or "")[:240],
+        "timestamp": str(item.get("timestamp") or ""),
+    })
 if not posts:
-    sys.exit('No usable Instagram media returned; retaining current feed')
+    sys.exit("No usable Instagram media returned; keeping existing feed")
 
-posts.sort(key=lambda x: x['timestamp'], reverse=True)
-output = pathlib.Path('data/instagram-feed.json')
-output.parent.mkdir(parents=True, exist_ok=True)
-output.write_text(json.dumps({'posts': posts[:6]}, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
-print(f'Snapshot prepared: {min(len(posts), 6)} posts; no access token stored')
+posts.sort(key=lambda post: post["timestamp"], reverse=True)
+out = Path("data/instagram-feed.json")
+out.parent.mkdir(parents=True, exist_ok=True)
+out.write_text(json.dumps({"posts": posts[:6]}, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+print(f"Instagram feed updated: {min(len(posts), 6)} posts; no token stored")
